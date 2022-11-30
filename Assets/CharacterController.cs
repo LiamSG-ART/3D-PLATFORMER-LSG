@@ -24,8 +24,19 @@ public class CharacterController : MonoBehaviour
     public float maxSprint = 5.0f;
     float sprintTimer;
 
+    public AudioClip jump;
+    public AudioClip backgroundMusic;
+
+    public AudioSource sfxPlayer;
+    public AudioSource musicPlayer;
+
+    Animator myAnim;
+
+    Vector3 respawnPoint = new Vector3(-0.64f,-0.15f,-7.69f);
     void Start()
     {
+        myAnim = GetComponentInChildren<Animator>();
+
         Cursor.lockState = CursorLockMode.Locked;
 
         sprintTimer = maxSprint;
@@ -47,7 +58,7 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && sprintTimer > 0.0f)
         {
             maxSpeed = sprintSpeed;
-            sprintTimer + sprintTimer - Time.deltaTime;
+            sprintTimer = sprintTimer - Time.deltaTime;
         }else 
         {
             maxSpeed = normalSpeed;
@@ -56,9 +67,11 @@ public class CharacterController : MonoBehaviour
             }
         }
 
-        sprintTimer = Mathf.Deg2RadClamp
+        sprintTimer = Mathf.Clamp(sprintTimer, 0.0f, maxSprint);
 
         Vector3 newVelocity = (transform.forward * Input.GetAxis("Vertical") * maxSpeed) + (transform.right * Input.GetAxis("Horizontal") * maxSpeed);
+
+        myAnim.SetFloat("speed", newVelocity.magnitude);
 
 
         myRigidbody.velocity = new Vector3(newVelocity.x, myRigidbody.velocity.y, newVelocity.z);
@@ -69,5 +82,13 @@ public class CharacterController : MonoBehaviour
 
         camRotation = camRotation + Input.GetAxis("Mouse Y") * camRotationSpeed;
         cam.transform.localRotation = Quaternion.Euler(new Vector3(camRotation, 0.0f, 0.0f));
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Death Box")
+        {
+            transform.position = respawnPoint;
+        }
     }
 }
