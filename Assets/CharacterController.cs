@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+
+    Animator myAnim;
+
     public float maxSpeed;
     public float normalSpeed = 09.0f;
     public float sprintSpeed = 14.0f;
@@ -30,11 +33,12 @@ public class CharacterController : MonoBehaviour
     public AudioSource sfxPlayer;
     public AudioSource musicPlayer;
 
-    Animator myAnim;
+  
 
     Vector3 respawnPoint = new Vector3(-0.64f,-0.15f,-7.69f);
     void Start()
     {
+
         myAnim = GetComponentInChildren<Animator>();
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -49,9 +53,11 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         isOnGround = Physics.CheckSphere(groundChecker.transform.position, 0.1f, groundLayer);
+        myAnim.SetBool("isOnGround", isOnGround);
 
         if (isOnGround == true && Input.GetKeyDown(KeyCode.Space))
         {
+            myAnim.SetTrigger("jumped");
             myRigidbody.AddForce(transform.up * jumpForce);
         }
 
