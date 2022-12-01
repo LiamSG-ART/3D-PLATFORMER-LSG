@@ -22,7 +22,7 @@ public class CharacterController : MonoBehaviour
     public float jumpForce = 300.0f;
 
     float rotationSpeed = 2.0f;
-    float camRotationSpeed = 1.5f;
+    float camRotationSpeed = 0.5f;
 
     public float maxSprint = 5.0f;
     float sprintTimer;
