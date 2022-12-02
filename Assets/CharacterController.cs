@@ -19,10 +19,10 @@ public class CharacterController : MonoBehaviour
     bool isOnGround;
     public GameObject groundChecker;
     public LayerMask groundLayer;
-    public float jumpForce = 300.0f;
+    public float jumpForce = 200.0f;
 
     float rotationSpeed = 2.0f;
-    float camRotationSpeed = 0.5f;
+    float camRotationSpeed = 0.2f;
 
     public float maxSprint = 5.0f;
     float sprintTimer;
@@ -95,6 +95,16 @@ public class CharacterController : MonoBehaviour
         if(other.tag == "Death Box")
         {
             transform.position = respawnPoint;
+        }
+
+        if (other.tag =="radio" && Input.GetKeyDown(KeyCode.E))
+        {
+            other.GetComponent<SFXSCRIPT>().PlaySoundEffect();
+        }
+
+        if (other.tag == "bounce")
+        {
+            myRigidbody.AddForce(new Vector3(0f,80f,0f));
         }
     }
 }
