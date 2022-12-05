@@ -7,6 +7,9 @@ TagManager:
   - Death Box
   - radio
   - bounce
+  - Bounce1
+  - Bounce2
+  - Bounce3
   layers:
   - Default
   - TransparentFX

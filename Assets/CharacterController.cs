@@ -33,7 +33,7 @@ public class CharacterController : MonoBehaviour
     public AudioSource sfxPlayer;
     public AudioSource musicPlayer;
 
-  
+    public float bounceForce = 280f;
 
     Vector3 respawnPoint = new Vector3(-0.64f,-0.15f,-7.69f);
     void Start()
@@ -105,6 +105,22 @@ public class CharacterController : MonoBehaviour
         if (other.tag == "bounce")
         {
             myRigidbody.AddForce(new Vector3(0f,70f,0f));
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Bounce1")
+        {
+            myRigidbody.AddForce(new Vector3(0f,70f,0f));
+        }
+        if (collision.gameObject.tag == "Bounce2")
+        {
+            myRigidbody.AddForce(new Vector3(0f,140f,0f));
+        }
+        if (collision.gameObject.tag == "Bounce3")
+        {
+            myRigidbody.AddForce(new Vector3(0f,bounceForce,0f));
         }
     }
 }
