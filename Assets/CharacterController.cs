@@ -104,7 +104,7 @@ public class CharacterController : MonoBehaviour
 
         if (other.tag == "bounce")
         {
-            myRigidbody.AddForce(new Vector3(0f,80f,0f));
+            myRigidbody.AddForce(new Vector3(0f,70f,0f));
         }
     }
 }
