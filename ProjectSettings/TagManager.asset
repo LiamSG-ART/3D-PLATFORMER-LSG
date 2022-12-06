@@ -10,6 +10,7 @@ TagManager:
   - Bounce1
   - Bounce2
   - Bounce3
+  - collectable
   layers:
   - Default
   - TransparentFX

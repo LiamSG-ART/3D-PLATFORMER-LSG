@@ -6,6 +6,7 @@ public class SFXSCRIPT : MonoBehaviour
 {
     public AudioClip soundEfect;
     public AudioSource test;
+    public GameObject jack;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +16,16 @@ public class SFXSCRIPT : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            PlaySoundEffect();
+            jack.SetActive(false);
+        }
     }
 
     public void PlaySoundEffect()
