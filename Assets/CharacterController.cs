@@ -122,5 +122,9 @@ public class CharacterController : MonoBehaviour
         {
             myRigidbody.AddForce(new Vector3(0f,bounceForce,0f));
         }
+        if (collision.gameObject.tag == "collectable")
+        {
+            
+        }
     }
 }
