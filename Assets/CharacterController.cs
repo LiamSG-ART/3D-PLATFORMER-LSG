@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterController : MonoBehaviour
 {
@@ -21,8 +22,8 @@ public class CharacterController : MonoBehaviour
     public LayerMask groundLayer;
     public float jumpForce = 200.0f;
 
-    float rotationSpeed = 2.0f;
-    float camRotationSpeed = 0.2f;
+    public float rotationSpeed = 0.5f;
+    public float camRotationSpeed = 0.05f;
 
     public float maxSprint = 5.0f;
     float sprintTimer;
@@ -36,6 +37,10 @@ public class CharacterController : MonoBehaviour
     public float bounceForce = 280f;
 
     Vector3 respawnPoint = new Vector3(-0.64f,-0.15f,-7.69f);
+
+    public Text timerDisplay;
+    float timer;
+    bool wantTimer = true;
     void Start()
     {
 
@@ -52,6 +57,11 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (wantTimer)
+        {
+            timer += Time.deltaTime;
+            timerDisplay.text = timer.ToString("F2");
+        }
         isOnGround = Physics.CheckSphere(groundChecker.transform.position, 0.1f, groundLayer);
         myAnim.SetBool("isOnGround", isOnGround);
 
@@ -99,7 +109,8 @@ public class CharacterController : MonoBehaviour
 
         if (other.tag =="radio" && Input.GetKeyDown(KeyCode.E))
         {
-            other.GetComponent<SFXSCRIPT>().PlaySoundEffect();
+            //other.GetComponent<SFXSCRIPT>().PlaySoundEffect();
+            other.GetComponent<AudioSource>().enabled = true;
         }
 
         if (other.tag == "bounce")
@@ -116,15 +127,11 @@ public class CharacterController : MonoBehaviour
         }
         if (collision.gameObject.tag == "Bounce2")
         {
-            myRigidbody.AddForce(new Vector3(0f,140f,0f));
+            myRigidbody.AddForce(new Vector3(0f,bounceForce/2.5f,0f));
         }
         if (collision.gameObject.tag == "Bounce3")
         {
             myRigidbody.AddForce(new Vector3(0f,bounceForce,0f));
-        }
-        if (collision.gameObject.tag == "collectable")
-        {
-            
         }
     }
 }
