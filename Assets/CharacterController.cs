@@ -41,6 +41,9 @@ public class CharacterController : MonoBehaviour
     public Text timerDisplay;
     float timer;
     bool wantTimer = true;
+
+    int collectablesCollected = 0;
+
     void Start()
     {
 
@@ -83,6 +86,11 @@ public class CharacterController : MonoBehaviour
             }
         }
 
+        if (collectablesCollected >= 6)
+        {
+            wantTimer = false;
+        }
+
         sprintTimer = Mathf.Clamp(sprintTimer, 0.0f, maxSprint);
 
         Vector3 newVelocity = (transform.forward * Input.GetAxis("Vertical") * maxSpeed) + (transform.right * Input.GetAxis("Horizontal") * maxSpeed);
@@ -93,10 +101,10 @@ public class CharacterController : MonoBehaviour
         myRigidbody.velocity = new Vector3(newVelocity.x, myRigidbody.velocity.y, newVelocity.z);
 
 
-        rotation = rotation + Input.GetAxis("Mouse X") * camRotation;
+        rotation = rotation + Input.GetAxis("Mouse X") * rotationSpeed;
         transform.rotation = Quaternion.Euler(new Vector3(0.0f, rotation, 0.0f));
 
-        camRotation = camRotation + Input.GetAxis("Mouse Y") * camRotationSpeed;
+        camRotation = camRotation + Input.GetAxis("Mouse Y") * camRotationSpeed * -1;
         cam.transform.localRotation = Quaternion.Euler(new Vector3(camRotation, 0.0f, 0.0f));
     }
 
@@ -117,6 +125,11 @@ public class CharacterController : MonoBehaviour
         {
             myRigidbody.AddForce(new Vector3(0f,70f,0f));
         }
+
+        if (other.tag == "collectable")
+        {
+            collectablesCollected++;
+        }
     }
 
     void OnCollisionEnter(Collision collision)
@@ -127,7 +140,7 @@ public class CharacterController : MonoBehaviour
         }
         if (collision.gameObject.tag == "Bounce2")
         {
-            myRigidbody.AddForce(new Vector3(0f,bounceForce/2.5f,0f));
+            myRigidbody.AddForce(new Vector3(0f,bounceForce/3f,0f));
         }
         if (collision.gameObject.tag == "Bounce3")
         {
