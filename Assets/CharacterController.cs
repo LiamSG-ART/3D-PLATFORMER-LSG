@@ -44,6 +44,8 @@ public class CharacterController : MonoBehaviour
 
     int collectablesCollected = 0;
 
+    bool radioActive = false;
+
     void Start()
     {
 
@@ -115,10 +117,11 @@ public class CharacterController : MonoBehaviour
             transform.position = respawnPoint;
         }
 
-        if (other.tag =="radio" && Input.GetKeyDown(KeyCode.E))
+        if (other.tag =="radio" && Input.GetKeyDown(KeyCode.E) && !(radioActive))
         {
             //other.GetComponent<SFXSCRIPT>().PlaySoundEffect();
             other.GetComponent<AudioSource>().enabled = true;
+            radioActive = true;
         }
 
         if (other.tag == "bounce")
